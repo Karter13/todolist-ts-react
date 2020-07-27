@@ -84,10 +84,10 @@ function App() {
 
                     let tasksForTodoList = tasks[tl.id];
                     if (tl.filter === 'completed') {
-                        tasksForTodoList = tasksForTodoList.filter(t => t.isDone === true)
+                        tasksForTodoList = tasksForTodoList.filter(t => t.isDone)
                     }
                     if (tl.filter === 'active') {
-                        tasksForTodoList = tasksForTodoList.filter(t => t.isDone === false)
+                        tasksForTodoList = tasksForTodoList.filter(t => !t.isDone)
                     }
 
                     return (
