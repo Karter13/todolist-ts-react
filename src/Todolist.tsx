@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
+import {EditableSpan} from './EditableSpan';
 
 export type TaskType = {
     id: string,
@@ -17,6 +18,8 @@ type PropsType = {
     changeFilter: (value: FilterValuesType, todoListID: string) => void,
     changeTaskStatus: (id: string, isDone: boolean, todoListID: string) => void,
     removeTodoList: (todoListID: string) => void
+    changeTaskTitle: (id: string, newTitle: string, todoListID: string) => void,
+    changeTodoListTitle: (todoListID: string, newTitle: string) => void
 }
 
 export function TodoList(props: PropsType) {
@@ -30,9 +33,16 @@ export function TodoList(props: PropsType) {
         props.addTask(title, props.id);
     };
 
+    const changeTodoListTitle = (newTitle: string) => {
+      props.changeTodoListTitle(props.id, newTitle)
+    };
+
     return (
         <div>
-            <h3>{props.title}
+            <h3>
+                <EditableSpan title={props.title}
+                              saveNewTitle={changeTodoListTitle}
+                />
                 <button onClick={onClickRemoveTodoList}>X</button>
             </h3>
 
@@ -48,6 +58,9 @@ export function TodoList(props: PropsType) {
                             let newCheckBoxValue = e.currentTarget.checked;
                             props.changeTaskStatus(t.id, newCheckBoxValue, props.id)
                         };
+                        const changeTaskTitle = (newTitle: string) => {
+                            props.changeTaskTitle(t.id, newTitle, props.id)
+                        };
 
                         return (
                             <li key={t.id} className={t.isDone ? 'is-done' : ''}>
@@ -56,7 +69,7 @@ export function TodoList(props: PropsType) {
                                     checked={t.isDone}
                                     onChange={changeStatus}
                                 />
-                                <span>{t.title}</span>
+                                <EditableSpan saveNewTitle={changeTaskTitle} title={t.title}/>
                                 <button onClick={onRemoveHandler}>x</button>
                             </li>
                         )
