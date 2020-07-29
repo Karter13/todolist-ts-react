@@ -12,7 +12,6 @@ export const EditableSpan: React.FC<EditableSpanPropsType>  = (props) => {
 
     const activatedEditMode = () => {
         setEditMode(true);
-        setTitle(props.title)
     };
     const deActivatedEditMode = () => {
         setEditMode(false);
