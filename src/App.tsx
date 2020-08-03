@@ -37,60 +37,6 @@ function App() {
         ],
     });
 
-    function removeTask(id: string, todoListID: string) {
-        let todoListTasks = tasks[todoListID];
-        tasks[todoListID] = todoListTasks.filter(t => t.id !== id);
-        setTasks({...tasks});
-    }
-    function changeTaskStatus(id: string, isDone: boolean, todoListID: string) {
-        let todoListTasks = tasks[todoListID];
-        let task = todoListTasks.find(t => t.id === id);
-        if (task) {
-            task.isDone = isDone;
-            setTasks({...tasks});
-        }
-    }
-
-    function changeTaskTitle(id: string, newTitle: string, todoListID: string) {
-        let todoListTasks = tasks[todoListID];
-        let task = todoListTasks.find(t => t.id === id);
-        if (task) {
-            task.title = newTitle;
-            setTasks({...tasks});
-        }
-    }
-
-    function changeTodoListTitle(todoListID: string, newTitle: string) {
-        let todoList = todoLists.find(tl => tl.id === todoListID);
-        if (todoList) {
-            todoList.title = newTitle;
-            setTodoLists([...todoLists]);
-        }
-    }
-
-
-    function addTask(taskName: string, todoListID: string) {
-
-        let newTask = {id: v1(), title: taskName, isDone: false};
-        let todoListTasks = tasks[todoListID];
-        tasks[todoListID] = [newTask, ...todoListTasks];
-        setTasks({...tasks});
-    }
-    function changeFilter(value: FilterValuesType, todoListID: string) {
-        let todoList = todoLists.find(tl => tl.id === todoListID);
-        if (todoList) {
-            todoList.filter = value;
-            setTodoLists([...todoLists]);
-        }
-    }
-    function removeTodoList(todoListID: string) {
-        let filteredTodoList = todoLists.filter(tl => tl.id !== todoListID);
-        setTodoLists(filteredTodoList);
-
-        delete tasks[todoListID];
-        setTasks({...tasks});
-    }
-
     function addTodoList(title: string) {
         let newTodoListID = v1();
         let newTodoList: TodoListType = {
@@ -101,6 +47,57 @@ function App() {
         setTodoLists([newTodoList, ...todoLists]);
 
         setTasks({...tasks, [newTodoListID]: []})
+    }
+    function removeTodoList(todoListID: string) {
+        let filteredTodoList = todoLists.filter(tl => tl.id !== todoListID);
+        setTodoLists(filteredTodoList);
+
+        delete tasks[todoListID];
+        setTasks({...tasks});
+    }
+    function changeTodoListTitle(todoListID: string, newTitle: string) {
+        let todoList = todoLists.find(tl => tl.id === todoListID);
+        if (todoList) {
+            todoList.title = newTitle;
+            setTodoLists([...todoLists]);
+        }
+    }
+
+    function changeFilter(value: FilterValuesType, todoListID: string) {
+        let todoList = todoLists.find(tl => tl.id === todoListID);
+        if (todoList) {
+            todoList.filter = value;
+            setTodoLists([...todoLists]);
+        }
+    }
+
+    function addTask(taskName: string, todoListID: string) {
+
+        let newTask = {id: v1(), title: taskName, isDone: false};
+        let todoListTasks = tasks[todoListID];
+        tasks[todoListID] = [newTask, ...todoListTasks];
+        setTasks({...tasks});
+    }
+    function removeTask(id: string, todoListID: string) {
+        let todoListTasks = tasks[todoListID];
+        tasks[todoListID] = todoListTasks.filter(t => t.id !== id);
+        setTasks({...tasks});
+    }
+    function changeTaskTitle(id: string, newTitle: string, todoListID: string) {
+        let todoListTasks = tasks[todoListID];
+        let task = todoListTasks.find(t => t.id === id);
+        if (task) {
+            task.title = newTitle;
+            setTasks({...tasks});
+        }
+    }
+    function changeTaskStatus(id: string, isDone: boolean, todoListID: string) {
+        let todoListTasks = tasks[todoListID];
+        let task = todoListTasks.find(t => t.id === id);
+        if (task) {
+            task.isDone = isDone;
+            setTasks({...tasks});
+        }
     }
 
     return (
