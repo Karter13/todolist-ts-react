@@ -1,4 +1,4 @@
-import {TaskStateType} from '../App';
+import {TasksStateType} from '../App';
 import {v1} from 'uuid';
 import {TaskType} from '../Todolist';
 
@@ -31,7 +31,7 @@ export  type ChangeTaskStatusType = {
     isDone: boolean
 }
 
-export const taskReducer = (state: TaskStateType, action: TasksType): TaskStateType => {
+export const taskReducer = (state: TasksStateType, action: TasksType): TasksStateType => {
     switch (action.type) {
         case 'ADD_TASK': {
             const newTask: TaskType = {

@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {TaskStateType} from '../App';
+import {TasksStateType} from '../App';
 import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, taskReducer} from './task-reducer';
 
 
@@ -7,7 +7,7 @@ test('correct task should be added', () => {
     let taskListID1 = v1();
     let taskListID2 = v1();
 
-    const startState: TaskStateType = {
+    const startState: TasksStateType = {
         [taskListID1]: [
             {id: v1(), title: 'HTML', isDone: true},
             {id: v1(), title: 'JS', isDone: false},
@@ -31,7 +31,7 @@ test('correct task should be remove', () => {
 
     let id = '1';
 
-    const startState: TaskStateType = {
+    const startState: TasksStateType = {
         'taskListID1': [
             {id: '1', title: 'HTML', isDone: true},
             {id: '2', title: 'JS', isDone: false},
@@ -57,7 +57,7 @@ test('correct change task title', () => {
     let id = '1';
     let title = 'React-Redux';
 
-    const startState: TaskStateType = {
+    const startState: TasksStateType = {
         'taskListID1': [
             {id: '1', title: 'HTML', isDone: true},
             {id: '2', title: 'JS', isDone: false},
@@ -82,7 +82,7 @@ test('correct change task status', () => {
     let id = '1';
     let isDone = true;
 
-    const startState: TaskStateType = {
+    const startState: TasksStateType = {
         'taskListID1': [
             {id: '1', title: 'HTML', isDone: true},
             {id: '2', title: 'JS', isDone: false},
