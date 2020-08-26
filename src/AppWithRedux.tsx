@@ -46,7 +46,6 @@ function AppWithRedux() {
         ],
     });
 
-
     function addTodoList(title: string) {
         const action = addTodolistAC(title);
         dispatchToTodoLists(action);
