@@ -1,4 +1,4 @@
-import {TasksStateType, TodoListType} from '../App';
+import {TasksStateType, TodoListType} from '../AppWithRedux';
 import {v1} from 'uuid';
 import {AddTodolistActionType, RemuveTodolistActionType} from './todolists-reducer';
 
@@ -59,19 +59,13 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
         case 'CHANGE_TASK_STATUS': {
             const stateCopy = {...state};
             const tasks = stateCopy[action.todolistId];
-            const task = tasks.find(task => task.id === action.taskListId);
-            if (task) {
-                task.isDone = action.isDone
-            }
+            stateCopy[action.todolistId] = tasks.map(t => t.id === action.taskListId ? { ...t, isDone: action.isDone} : t);
             return stateCopy;
         }
         case 'CHANGE_TASK_TITLE': {
             const stateCopy = {...state};
             const tasks = stateCopy[action.todolistId];
-            const task = tasks.find(task => task.id === action.taskListId);
-            if (task) {
-                task.title = action.title
-            }
+            stateCopy[action.todolistId] = tasks.map(t => t.id === action.taskListId ? {...t, title: action.title} : t );
             return stateCopy;
         }
         case 'ADD-TODOLIST': {
