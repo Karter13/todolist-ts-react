@@ -2,12 +2,8 @@ import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType} from './AppWithRedux';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {IconButton, Button, Checkbox} from '@material-ui/core';
+import {Button, Checkbox, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './State/store';
-import {TasksStateType} from './AppWithRedux';
-import {addTasksAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './State/tasks-reducer';
 
 export type TaskType = {
     id: string,
@@ -34,10 +30,10 @@ export function TodoList(props: PropsType) {
     const dispatch = useDispatch();*/
 
 
+    const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.changeFilter, props.id]);
+    const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.changeFilter, props.id]);
+    const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.id), [props.changeFilter, props.id]);
 
-    const onAllClickHandler = () => props.changeFilter('all', props.id);
-    const onActiveClickHandler = () => props.changeFilter('active', props.id);
-    const onCompletedClickHandler = () => props.changeFilter('completed', props.id);
     const onClickRemoveTodoList = () => props.removeTodoList(props.id);
 
 
@@ -45,11 +41,11 @@ export function TodoList(props: PropsType) {
         /*const action = addTasksAC(title, props.id);
         dispatch(action);*/
         props.addTask(title, props.id);
-    }, []);
+    }, [props.addTask, props.id]);
 
-    const changeTodoListTitle = (newTitle: string) => {
+    const changeTodoListTitle = useCallback((newTitle: string) => {
         props.changeTodoListTitle(props.id, newTitle)
-    };
+    }, []);
 
     let tasksForTodoList = props.tasks;
     if (props.filter === 'active') {
