@@ -24,11 +24,12 @@ type PropsType = {
     changeTodoListTitle: (todoListID: string, newTitle: string) => void
 }
 
-export function TodoList(props: PropsType) {
+export const TodoList: React.FC<PropsType> = React.memo((props) => {
 
-   /* const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
-    const dispatch = useDispatch();*/
+    console.log('Todolist is called');
 
+    /* const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
+     const dispatch = useDispatch();*/
 
     const onAllClickHandler = useCallback(() => props.changeFilter('all', props.id), [props.changeFilter, props.id]);
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.changeFilter, props.id]);
@@ -133,4 +134,4 @@ export function TodoList(props: PropsType) {
             </div>
         </div>
     )
-}
+})
