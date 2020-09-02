@@ -17,12 +17,12 @@ export type TaskType = {
 type PropsType = {
     id: string,
     title: string,
-    // tasks: Array<TaskType>,
+    tasks: Array<TaskType>,
     filter: FilterValuesType,
-    // addTask: (taskName: string, todoListID: string) => void,
-    // removeTask: (id: string, todoListID: string) => void,
-    // changeTaskStatus: (id: string, isDone: boolean, todoListID: string) => void,
-    // changeTaskTitle: (id: string, newTitle: string, todoListID: string) => void,
+    addTask: (taskName: string, todoListID: string) => void,
+    removeTask: (id: string, todoListID: string) => void,
+    changeTaskStatus: (id: string, isDone: boolean, todoListID: string) => void,
+    changeTaskTitle: (id: string, newTitle: string, todoListID: string) => void,
     changeFilter: (value: FilterValuesType, todoListID: string) => void,
     removeTodoList: (todoListID: string) => void
     changeTodoListTitle: (todoListID: string, newTitle: string) => void
@@ -30,8 +30,8 @@ type PropsType = {
 
 export function TodoList(props: PropsType) {
 
-    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
-    const dispatch = useDispatch();
+   /* const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
+    const dispatch = useDispatch();*/
 
 
 
@@ -42,22 +42,22 @@ export function TodoList(props: PropsType) {
 
 
     const addTask = (title: string) => {
-        const action = addTasksAC(title, props.id);
-        dispatch(action);
-        // props.addTask(title, props.id);
+        /*const action = addTasksAC(title, props.id);
+        dispatch(action);*/
+        props.addTask(title, props.id);
     };
 
     const changeTodoListTitle = (newTitle: string) => {
         props.changeTodoListTitle(props.id, newTitle)
     };
 
-    let tasksForTodoList = tasks;
+  /*  let tasksForTodoList = tasks;
     if (props.filter === 'completed') {
         tasksForTodoList = tasksForTodoList.filter(t => t.isDone)
     }
     if (props.filter === 'active') {
         tasksForTodoList = tasksForTodoList.filter(t => !t.isDone)
-    }
+    }*/
 
     return (
         <div>
@@ -75,19 +75,19 @@ export function TodoList(props: PropsType) {
 
             <div>
                 {
-                    tasksForTodoList.map((t) => {
+                    props.tasks.map((t) => {
 
-                        const onRemoveHandler = () => dispatch(removeTaskAC(t.id, props.id));
-                        // const onRemoveHandler = () =>props.removeTask(t.id, props.id);
+                        // const onRemoveHandler = () => dispatch(removeTaskAC(t.id, props.id));
+                        const onRemoveHandler = () =>props.removeTask(t.id, props.id);
 
                         const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
                             let newCheckBoxValue = e.currentTarget.checked;
-                            // props.changeTaskStatus(t.id, newCheckBoxValue, props.id)
-                            dispatch(changeTaskStatusAC(t.id, newCheckBoxValue, props.id));
+                            props.changeTaskStatus(t.id, newCheckBoxValue, props.id)
+                            // dispatch(changeTaskStatusAC(t.id, newCheckBoxValue, props.id));
                         };
                         const changeTaskTitle = (newTitle: string) => {
-                            dispatch(changeTaskTitleAC(t.id, newTitle, props.id));
-                            // props.changeTaskTitle(t.id, newTitle, props.id)
+                            // dispatch(changeTaskTitleAC(t.id, newTitle, props.id));
+                            props.changeTaskTitle(t.id, newTitle, props.id)
                         };
 
                         return (

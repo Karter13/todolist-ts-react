@@ -27,7 +27,7 @@ export type TasksStateType = {
 function AppWithRedux() {
 
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists);
-    // const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
     const dispatch = useDispatch();
 
     function addTodoList(title: string) {
@@ -47,7 +47,7 @@ function AppWithRedux() {
         dispatch(action);
     }
 
-    /*function addTask(taskName: string, todoListID: string) {
+    function addTask(taskName: string, todoListID: string) {
         const action = addTasksAC(taskName, todoListID);
         dispatch(action);
     }
@@ -62,7 +62,7 @@ function AppWithRedux() {
     function changeTaskStatus(id: string, isDone: boolean, todoListID: string) {
         const action = changeTaskStatusAC(id, isDone, todoListID);
         dispatch(action);
-    }*/
+    }
 
     return (
         <div className="App">
@@ -88,13 +88,13 @@ function AppWithRedux() {
                     {
                         todoLists.map(tl => {
 
-                        /*    let tasksForTodoList = tasks[tl.id];
+                            let tasksForTodoList = tasks[tl.id];
                             if (tl.filter === 'completed') {
                                 tasksForTodoList = tasksForTodoList.filter(t => t.isDone)
                             }
                             if (tl.filter === 'active') {
                                 tasksForTodoList = tasksForTodoList.filter(t => !t.isDone)
-                            }*/
+                            }
 
                             return (
                                 <Grid item>
@@ -106,13 +106,13 @@ function AppWithRedux() {
                                             id={tl.id}
                                             title={tl.title}
                                             filter={tl.filter}
-                                            // tasks={tasksForTodoList}
-                                            // addTask={addTask}
-                                            // removeTask={removeTask}
+                                            tasks={tasksForTodoList}
+                                            addTask={addTask}
+                                            removeTask={removeTask}
                                             changeFilter={changeFilter}
-                                            // changeTaskStatus={changeTaskStatus}
+                                            changeTaskStatus={changeTaskStatus}
                                             removeTodoList={removeTodoList}
-                                            // changeTaskTitle={changeTaskTitle}
+                                            changeTaskTitle={changeTaskTitle}
                                             changeTodoListTitle={changeTodoListTitle}
                                         />
                                     </Paper>
