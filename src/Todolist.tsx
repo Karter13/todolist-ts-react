@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType} from './AppWithRedux';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
@@ -41,23 +41,23 @@ export function TodoList(props: PropsType) {
     const onClickRemoveTodoList = () => props.removeTodoList(props.id);
 
 
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         /*const action = addTasksAC(title, props.id);
         dispatch(action);*/
         props.addTask(title, props.id);
-    };
+    }, []);
 
     const changeTodoListTitle = (newTitle: string) => {
         props.changeTodoListTitle(props.id, newTitle)
     };
 
-  /*  let tasksForTodoList = tasks;
-    if (props.filter === 'completed') {
-        tasksForTodoList = tasksForTodoList.filter(t => t.isDone)
-    }
+    let tasksForTodoList = props.tasks;
     if (props.filter === 'active') {
-        tasksForTodoList = tasksForTodoList.filter(t => !t.isDone)
-    }*/
+        tasksForTodoList = props.tasks.filter(t => !t.isDone)
+    }
+    if (props.filter === 'completed') {
+        tasksForTodoList = props.tasks.filter(t => t.isDone)
+    }
 
     return (
         <div>
@@ -75,7 +75,7 @@ export function TodoList(props: PropsType) {
 
             <div>
                 {
-                    props.tasks.map((t) => {
+                    tasksForTodoList.map((t) => {
 
                         // const onRemoveHandler = () => dispatch(removeTaskAC(t.id, props.id));
                         const onRemoveHandler = () =>props.removeTask(t.id, props.id);

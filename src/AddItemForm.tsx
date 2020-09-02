@@ -6,7 +6,9 @@ export type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) => {
+
+    console.log('AddItemForm called');
 
     const [itemName, setItemName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
@@ -23,6 +25,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
         setItemName(e.currentTarget.value);
     };
     const onAddItemKeyPressed = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(error !== null)
         setError(null);
         if (e.charCode === 13) {
             addItem();
@@ -56,4 +59,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
             {/*{error && <div className={'error-message'}>{error}</div>}*/}
         </div>
     )
-};
+});
