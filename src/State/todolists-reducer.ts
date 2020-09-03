@@ -38,21 +38,21 @@ export const todolistsReducer = (state: Array<TodoListType> = initialState, acti
             };
             return ([newTodoList, ...state]);
         case 'CHANGE-TODOLIST-TITLE':
-            const todoList1 = state.find(tl => tl.id === action.id);
+            /*const todoList1 = state.find(tl => tl.id === action.id);
             if (todoList1) {
                 todoList1.title = action.title;
             }
-            return [...state];
+            return [...state];*/
         //with map
-        // return state.map(todo => todo.id === action.id ? {...todo, title: action.title} : todo);
+        return state.map(todo => todo.id === action.id ? {...todo, title: action.title} : todo);
         case 'CHANGE-TODOLIST-FILTER':
-            const todoList = state.find(tl => tl.id === action.id);
+            /*const todoList = state.find(tl => tl.id === action.id);
             if (todoList) {
                 todoList.filter = action.filter;
             }
-            return [...state];
+            return [...state];*/
         //with map
-        // return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
+        return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
         default:
             return state;
     }
