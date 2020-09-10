@@ -3,7 +3,7 @@ import React from 'react';
 import {Task} from './Task';
 
 export default {
-    title: 'AddItemForm component',
+    title: 'Task component',
     component: Task
 }
 
