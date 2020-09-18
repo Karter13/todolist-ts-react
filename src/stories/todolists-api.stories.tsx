@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {todolistsAPI, UpdateTaskType} from '../api/todolist-api';
+import {todolistsAPI, UpdateTaskModelType} from '../api/todolist-api';
 
 export default {
     title: 'API'
@@ -70,7 +70,6 @@ export const GetTasks = () => {
         const todolistId = TODOLIST_ID;
         todolistsAPI.getTasks(todolistId)
             .then(res => {
-                debugger;
                 setState(res.data)
             })
     }, []);
@@ -107,7 +106,7 @@ export const UpdateTask = () => {
     useEffect(() => {
         const todolistId = TODOLIST_ID;
         const taskId = TASK_ID;
-        const properties: UpdateTaskType = {
+        const model: UpdateTaskModelType = {
             title: 'REDUX',
             description: '333',
             status: 0,
@@ -115,7 +114,7 @@ export const UpdateTask = () => {
             startDate: '12.12.19',
             deadline: '2020-09-18T09:16:46.85'
         };
-        todolistsAPI.updateTask(todolistId, taskId, properties)
+        todolistsAPI.updateTask(todolistId, taskId, model)
             .then(res => setState(res.data));
     }, []);
 

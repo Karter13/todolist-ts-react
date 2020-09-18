@@ -14,7 +14,7 @@ type CommonResponseType<T = {}> = {
 }
 
 //type for Tasklist
-export type UpdateTaskType = {
+export type UpdateTaskModelType = {
     title:string
     description: string
     status: number
@@ -72,14 +72,13 @@ export const todolistsAPI = {
         return instanse.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        return instanse.post(`todo-lists/${todolistId}/tasks`, {title})
+        return instanse.post<CommonResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instanse.delete<CommonResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTask(todolistId: string, taskId: string, properties: UpdateTaskType) {
-        return instanse.put(`todo-lists/${todolistId}/tasks/${taskId}`, properties)
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+        return instanse.put<CommonResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
-
 };
 
