@@ -7,20 +7,6 @@ type TodoType = {
     order: number
 }
 
-type CreateResponseType = {
-    resultCode: number
-    messages: Array<string>,
-    data: {
-        item: TodoType
-    }
-}
-
-type DeleteAndUpdateResponseType = {
-    resultCode: number
-    messages: Array<string>,
-    data: []
-}
-
 type CommonResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>,
@@ -40,7 +26,7 @@ export const todolistAPI = {
         return instanse.get<Array<TodoType>>(`todo-lists`)
     },
 
-    createTodo(title: string = '') {
+    createTodo(title: string = 'ANGULAR') {
         return instanse.post<CommonResponseType<{item: TodoType}>>(`todo-lists`,
             {title})
     },
@@ -50,7 +36,7 @@ export const todolistAPI = {
     },
 
     updateTodo(todoId: string, title: string) {
-        return instanse.put<CommonResponseType>(`todo-lists/${todoId}`)
+        return instanse.put<CommonResponseType>(`todo-lists/${todoId}`, {title})
     },
 
 };
