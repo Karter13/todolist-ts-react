@@ -1,7 +1,7 @@
 import {TasksStateType} from '../AppWithRedux';
 import {v1} from 'uuid';
 import {AddTodolistActionType, RemuveTodolistActionType} from './todolists-reducer';
-import {TaskStatuses} from '../api/todolist-api';
+import {TaskPriorities, TaskStatuses} from '../api/todolist-api';
 
 export type TasksType =
     AddTaskActionType
@@ -51,7 +51,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             const newTask = {
                 id: v1(),
                 title: action.title,
-                isDone: false
+                status: TaskStatuses.New,
+                todoListId: action.todolistId,
+                description: '',
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low
             };
             const newTasks = [newTask, ...tasks];
             stateCopy[action.todolistId] = newTasks;
@@ -60,7 +67,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
         case 'CHANGE_TASK_STATUS': {
             const stateCopy = {...state};
             const tasks = stateCopy[action.todolistId];
-            stateCopy[action.todolistId] = tasks.map(t => t.id === action.taskListId ? { ...t, isDone: action.isDone} : t);
+            stateCopy[action.todolistId] = tasks.map(t => t.id === action.taskListId ? { ...t, status: action.status} : t);
             return stateCopy;
         }
         case 'CHANGE_TASK_TITLE': {
