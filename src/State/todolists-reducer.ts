@@ -1,8 +1,6 @@
-import {FilterValuesType, TodoListType} from '../AppWithRedux';
+import {FilterValuesType} from '../AppWithRedux';
 import {v1} from 'uuid';
-
-type ActionsTypes = RemuveTodolistActionType | AddTodolistActionType |
-    ChangeTodolistActionType | ChangeTodolistFilterActionType
+import {TodolistType} from '../api/todolist-api';
 
 export type RemuveTodolistActionType = {
     type: 'REMOVE-TODOLIST'
@@ -24,14 +22,22 @@ export type ChangeTodolistFilterActionType = {
     filter: FilterValuesType
 }
 
-const initialState: Array<TodoListType> = [];
+type ActionsTypes = RemuveTodolistActionType | AddTodolistActionType |
+    ChangeTodolistActionType | ChangeTodolistFilterActionType
 
-export const todolistsReducer = (state: Array<TodoListType> = initialState, action: ActionsTypes): Array<TodoListType> => {
+const initialState: Array<TodolistDomainType> = [];
+
+export type FilterValuesType = 'all' | 'completed' | 'active';
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValuesType
+}
+
+export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsTypes): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id);
         case 'ADD-TODOLIST':
-            const newTodoList: TodoListType = {
+            const newTodoList: TodolistDomainType = {
                 id: action.todolistId,
                 title: action.title,
                 filter: 'all'
@@ -43,16 +49,16 @@ export const todolistsReducer = (state: Array<TodoListType> = initialState, acti
                 todoList1.title = action.title;
             }
             return [...state];*/
-        //with map
-        return state.map(todo => todo.id === action.id ? {...todo, title: action.title} : todo);
+            //with map
+            return state.map(todo => todo.id === action.id ? {...todo, title: action.title} : todo);
         case 'CHANGE-TODOLIST-FILTER':
             /*const todoList = state.find(tl => tl.id === action.id);
             if (todoList) {
                 todoList.filter = action.filter;
             }
             return [...state];*/
-        //with map
-        return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
+            //with map
+            return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
         default:
             return state;
     }

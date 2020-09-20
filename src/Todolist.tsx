@@ -6,11 +6,9 @@ import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
 import {Task} from './Task';
 
-export type TaskType = {
-    id: string,
-    title: string,
-    isDone: boolean,
-}
+
+
+
 type PropsType = {
     id: string
     title: string
