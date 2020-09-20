@@ -17,7 +17,7 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newCheckBoxValue = e.currentTarget.checked;
-        props.changeTaskStatus(props.task.id, newCheckBoxValue, props.todolistId)
+        props.changeTaskStatus(props.task.id, newCheckBoxValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
 
     };
 
@@ -29,7 +29,7 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
         <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
             <Checkbox
                 color={'primary'}
-                checked={props.task.isDone}
+                checked={props.task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
             />
 
