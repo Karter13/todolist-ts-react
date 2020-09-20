@@ -15,25 +15,40 @@ type CommonResponseType<T = {}> = {
 
 //type for Tasklist
 export type UpdateTaskModelType = {
-    title:string
+    title: string
     description: string
     status: number
     priority: number
     startDate: string
     deadline: string
+}
+
+export enum TaskStatuses {
+    New,
+    InProgress,
+    Completed,
+    Draft
+}
+export enum TaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later,
 }
 export type TaskType = {
-    addedDate: string
-    deadline: string
     description: string
-    id: string
-    order: number
-    priority: number
-    startDate: string
-    status: number
     title: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+    id: string
     todoListId: string
+    order: number
+    addedDate: string
 }
+
 export type GetTasksResponse = {
     error: string | null
     totalCount: number
@@ -57,7 +72,7 @@ export const todolistsAPI = {
         return instanse.get<Array<TodolistType>>(`todo-lists`)
     },
     createTodo(title: string = 'ANGULAR') {
-        return instanse.post<CommonResponseType<{item: TodolistType}>>(`todo-lists`,
+        return instanse.post<CommonResponseType<{ item: TodolistType }>>(`todo-lists`,
             {title})
     },
     deleteTodo(todoId: string) {
@@ -72,13 +87,13 @@ export const todolistsAPI = {
         return instanse.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, taskTitle: string) {
-        return instanse.post<CommonResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title: taskTitle})
+        return instanse.post<CommonResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title: taskTitle})
     },
     deleteTask(todolistId: string, taskId: string) {
         return instanse.delete<CommonResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instanse.put<CommonResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return instanse.put<CommonResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 };
 

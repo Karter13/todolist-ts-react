@@ -7,13 +7,15 @@ import {Menu} from '@material-ui/icons';
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, FilterValuesType,
-    removeTodolistAC
+    changeTodolistTitleAC,
+    FilterValuesType,
+    removeTodolistAC,
+    TodolistDomainType
 } from './State/todolists-reducer';
 import {addTasksAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './State/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './State/store';
-import {TaskType, TodolistType} from './api/todolist-api';
+import {TaskType} from './api/todolist-api';
 
 
 export type TasksStateType = {
@@ -24,7 +26,7 @@ function AppWithRedux() {
 
     console.log('App is called');
 
-    const todoLists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists);
+    const todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
     const dispatch = useDispatch();
 
