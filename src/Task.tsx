@@ -26,7 +26,7 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
     }, [props.task.id, props.todolistId, props.changeTaskTitle]);
 
     return (
-        <div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
+        <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
             <Checkbox
                 color={'primary'}
                 checked={props.task.isDone}
