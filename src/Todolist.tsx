@@ -29,7 +29,7 @@ export const TodoList: React.FC<PropsType> = React.memo((props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchTasksTC(props.id))
+        dispatch(fetchTasksTC(props.id));
     }, []);
 
     console.log('Todolist is called');

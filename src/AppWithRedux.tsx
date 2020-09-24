@@ -13,7 +13,7 @@ import {
     removeTodolistAC,
     TodolistDomainType
 } from './State/todolists-reducer';
-import {addTasksAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './State/tasks-reducer';
+import {addTaskTC, changeTaskStatusAC, changeTaskTitleAC, removeTaskTC} from './State/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './State/store';
 import {TaskStatuses, TaskType} from './api/todolist-api';
@@ -28,8 +28,8 @@ function AppWithRedux() {
     console.log('App is called');
 
     useEffect(() => {
-        debugger;
-       dispatch(fetchTodolistsTC())
+    debugger;
+        dispatch(fetchTodolistsTC())
     }, []);
 
     const todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
@@ -55,13 +55,17 @@ function AppWithRedux() {
     }, [dispatch]);
 
     const addTask = useCallback((taskName: string, todoListID: string) => {
-        const action = addTasksAC(taskName, todoListID);
-        dispatch(action);
+        dispatch(addTaskTC(todoListID, taskName))
+        // const action = addTasksAC(taskName, todoListID);
+        // dispatch(action);
     }, [dispatch]);
+
     const removeTask = useCallback((id: string, todoListID: string) => {
-        const action = removeTaskAC(id, todoListID);
-        dispatch(action);
-    }, [dispatch]);
+        dispatch(removeTaskTC(todoListID, id))
+// const action = removeTaskAC(id, todoListID);
+        // dispatch(action);
+    }, []);
+
     const changeTaskTitle = useCallback((id: string, newTitle: string, todoListID: string) => {
         const action = changeTaskTitleAC(id, newTitle, todoListID);
         dispatch(action);
