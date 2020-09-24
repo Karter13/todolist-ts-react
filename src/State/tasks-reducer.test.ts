@@ -1,4 +1,11 @@
-import {addTasksAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
+import {
+    addTasksAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    setTasksAC,
+    tasksReducer
+} from './tasks-reducer';
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolists-reducer';
 import {TasksStateType} from '../AppWithRedux';
 import {TaskPriorities, TaskStatuses} from '../api/todolist-api';
@@ -29,7 +36,7 @@ test('correct task should be deleted from correct array', () => {
 
     const action = removeTaskAC("2", "todolistId2");
 
-    const endState = tasksReducer(startState, action)
+    const endState = tasksReducer(startState, action);
 
     expect(endState["todolistId1"].length).toBe(3);
     expect(endState["todolistId2"].length).toBe(2);
@@ -39,7 +46,7 @@ test('correct task should be deleted from correct array', () => {
 test('correct task should be added to correct array', () => {
 
     const action = addTasksAC("juce", "todolistId2");
-    const endState = tasksReducer(startState, action)
+    const endState = tasksReducer(startState, action);
 
     expect(endState["todolistId1"].length).toBe(3);
     expect(endState["todolistId2"].length).toBe(4);
@@ -72,11 +79,11 @@ test('new property with new array should be added when new todolist is added', (
 
     const action = addTodolistAC("new todolist");
 
-    const endState = tasksReducer(startState, action)
+    const endState = tasksReducer(startState, action);
 
 
     const keys = Object.keys(endState);
-    const newKey = keys.find(k => k != "todolistId1" && k != "todolistId2");
+    const newKey = keys.find(k => k !== "todolistId1" && k !== "todolistId2");
     if (!newKey) {
         throw Error("new key should be added")
     }
@@ -113,4 +120,20 @@ test('empty arrays should be added when we set todolists', () => {
     expect(keys.length).toBe(2);
     expect(endState['1']).toStrictEqual([]);
     expect(endState['2']).toStrictEqual([]);
+});
+
+test('tasks should be added for todolist', () => {
+
+    const action = setTasksAC(startState['todolistId1'], 'todolistId1');
+
+    const endState = tasksReducer({
+        'todolistId2': [],
+        'todolistId1': [],
+    }, action);
+
+
+    const keys = Object.keys(endState);
+
+    expect(endState['todolistId1'].length).toBe(3);
+    expect(endState['todolistId2'].length).toBe(0);
 });
