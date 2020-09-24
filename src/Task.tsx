@@ -36,7 +36,7 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
             <EditableSpan saveNewTitle={onTitleChangeHandler} title={props.task.title}/>
             <IconButton onClick={onClickHandler}>
                 <Delete/>
-            </IconButton>props.task
+            </IconButton>
         </div>
     )
 });

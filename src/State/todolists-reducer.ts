@@ -1,5 +1,6 @@
 import {v1} from 'uuid';
-import {TodolistType} from '../api/todolist-api';
+import {todolistsAPI, TodolistType} from '../api/todolist-api';
+import {Dispatch} from 'redux';
 
 export type RemuveTodolistActionType = {
     type: 'REMOVE-TODOLIST'
@@ -20,9 +21,13 @@ export type ChangeTodolistFilterActionType = {
     id: string
     filter: FilterValuesType
 }
+export type SetTodolistsActionType = {
+    type: 'SET-TODOLISTS'
+    todolists: Array<TodolistType>
+}
 
 type ActionsTypes = RemuveTodolistActionType | AddTodolistActionType |
-    ChangeTodolistActionType | ChangeTodolistFilterActionType
+    ChangeTodolistActionType | ChangeTodolistFilterActionType | SetTodolistsActionType
 
 const initialState: Array<TodolistDomainType> = [];
 
@@ -48,6 +53,18 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.map(todo => todo.id === action.id ? {...todo, title: action.title} : todo);
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
+        case 'SET-TODOLISTS': {
+            return action.todolists.map((tl) => {
+                return {...tl, filter: 'all'}
+            })
+
+            //как у димыча
+            // return action.todolists.map(tl => ({
+            //     ...tl,
+            //     filter: 'all'
+            // }))
+        }
+
         default:
             return state;
     }
@@ -65,4 +82,17 @@ export const changeTodolistTitleAC = (id: string, title: string): ChangeTodolist
 };
 export const changeTodolistFilterAC = (id: string, filter: FilterValuesType): ChangeTodolistFilterActionType => {
     return {type: 'CHANGE-TODOLIST-FILTER', id: id, filter: filter}
+};
+
+export const setTodolistsAC = (todolists: Array<TodolistType>): SetTodolistsActionType => {
+    return {type: 'SET-TODOLISTS', todolists}
+};
+
+//THUNK
+export const fetchTodolistsTC = () =>  (dispatch: Dispatch) => {
+    todolistsAPI.getTodolists()
+        .then((res) => {
+            const todos = res.data;
+            dispatch(setTodolistsAC(todos))
+        })
 };
