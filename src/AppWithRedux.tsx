@@ -28,7 +28,6 @@ function AppWithRedux() {
     console.log('App is called');
 
     useEffect(() => {
-    debugger;
         dispatch(fetchTodolistsTC())
     }, []);
 
@@ -54,9 +53,7 @@ function AppWithRedux() {
     }, [dispatch]);
 
     const addTask = useCallback((taskName: string, todoListID: string) => {
-        dispatch(addTaskTC(todoListID, taskName))
-        // const action = addTasksAC(taskName, todoListID);
-        // dispatch(action);
+        dispatch(addTaskTC(taskName, todoListID))
     }, [dispatch]);
     const removeTask = useCallback((id: string, todoListID: string) => {
         dispatch(removeTaskTC(todoListID, id))
