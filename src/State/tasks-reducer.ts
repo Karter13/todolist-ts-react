@@ -158,7 +158,7 @@ export const changeTaskStatusTC = (taskId: string, status: TaskStatuses, todolis
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
 
         const state = getState();
-        const task = state.tasks[todolistId].find(task => task.id === taskId)
+        const task = state.tasks[todolistId].find(task => task.id === taskId);
         if(!task) {
             // throw new Error('Task not found in the state');
             console.warn('Task not found in the state');
@@ -175,6 +175,32 @@ export const changeTaskStatusTC = (taskId: string, status: TaskStatuses, todolis
         todolistsAPI.updateTask(todolistId, taskId, model)
             .then((res) => {
                 dispatch(changeTaskStatusAC(taskId, status, todolistId))
+            })
+    }
+};
+
+export const changeTaskTitleTC = (taskId: string, title: string, todolistId: string) => {
+
+    return (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+        const state = getState();
+        const task = state.tasks[todolistId].find(task => task.id === taskId);
+        if(!task) {
+            // throw new Error('Task not found in the state');
+            console.warn('Task not found in the state');
+            return;
+        }
+        const model: UpdateTaskModelType = {
+            deadline: task.deadline,
+            description: task.description,
+            priority: task.priority,
+            startDate: task.startDate,
+            status: task.status,
+            title: title,
+        };
+        todolistsAPI.updateTask(todolistId, taskId, model)
+            .then(() => {
+                dispatch(changeTaskTitleAC(taskId, title, todolistId))
             })
     }
 };
