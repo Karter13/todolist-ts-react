@@ -70,21 +70,19 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
 };
 
 //ACTION-CREATORS
-export const removeTaskAC = (taskId: string, todolistId: string) => {
-    return {type: 'REMOVE_TASK', taskId, todolistId} as const
-};
+export const removeTaskAC = (taskId: string, todolistId: string) => ({
+    type: 'REMOVE_TASK', taskId, todolistId
+} as const);
 
-export const addTasksAC = (task: TaskType) => {
-    return {type: 'ADD_TASK', task} as const
-};
+export const addTasksAC = (task: TaskType) => ({type: 'ADD_TASK', task} as const);
 
-export const updateTaskAC = (taskListId: string, model: UpdateDomainTaskModelType, todolistId: string) => {
-    return {type: 'UPDATE_TASK', taskListId, model, todolistId} as const
-};
+export const updateTaskAC = (taskListId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({
+    type: 'UPDATE_TASK', taskListId, model, todolistId
+} as const);
 
-export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) => {
-    return {type: 'SET-TASKS', tasks, todolistId} as const
-};
+export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) => ({
+    type: 'SET-TASKS', tasks, todolistId
+} as const);
 
 
 //THUNK-CREATORS
