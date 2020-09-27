@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {TodoList} from './Todolist';
-import {AddItemForm} from './AddItemForm';
+import {TodoList} from '../features/TodolistsList/Todolist/Todolist';
+import {AddItemForm} from '../components/AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
 import {
@@ -12,18 +12,18 @@ import {
     FilterValuesType,
     removeTodolistTC,
     TodolistDomainType
-} from './State/todolists-reducer';
-import {addTaskTC, removeTaskTC, updateTaskTC} from './State/tasks-reducer';
+} from '../features/TodolistsList/todolists-reducer';
+import {addTaskTC, removeTaskTC, updateTaskTC} from '../features/TodolistsList/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './State/store';
-import {TaskStatuses, TaskType} from './api/todolist-api';
+import {AppRootStateType} from './store';
+import {TaskStatuses, TaskType} from '../api/todolist-api';
 
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-function AppWithRedux() {
+function App() {
 
     console.log('App is called');
 
@@ -123,4 +123,4 @@ function AppWithRedux() {
     );
 }
 
-export default AppWithRedux;
+export default App;
