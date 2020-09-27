@@ -1,11 +1,16 @@
 import {todolistsAPI, TodolistType} from '../api/todolist-api';
 import {Dispatch} from 'redux';
 
-type ActionsTypes = ReturnType<typeof removeTodolistAC>
-    | ReturnType<typeof addTodolistAC>
+export type addTodolistActionType = ReturnType<typeof addTodolistAC>
+export type removeTodolistActionType = ReturnType<typeof removeTodolistAC>
+export type setTodolistsActionType = ReturnType<typeof setTodolistsAC>
+
+type ActionsTypes =
+    | removeTodolistActionType
+    | addTodolistActionType
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
-    | ReturnType<typeof setTodolistsAC>
+    | setTodolistsActionType
 
 const initialState: Array<TodolistDomainType> = [];
 
