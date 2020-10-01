@@ -9,7 +9,6 @@ import {FilterValuesType} from '../todolists-reducer';
 import {useDispatch} from 'react-redux';
 import {fetchTasksTC} from '../tasks-reducer';
 
-
 type PropsType = {
     id: string
     title: string
