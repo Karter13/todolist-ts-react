@@ -3,6 +3,7 @@ import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType}
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolist-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from '../../app/store';
+import {setAppStatusAC, setAppStatusActionType} from '../../app/app-reducer';
 
 const initialState: TasksStateType = {};
 
@@ -59,24 +60,30 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) =>
 
 // thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksType>) => {
+    dispatch(setAppStatusAC('loading'));
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
             const tasks = res.data.items;
             const action = setTasksAC(tasks, todolistId);
-            dispatch(action)
+            dispatch(action);
+            dispatch(setAppStatusAC('succeeded'));
         })
 };
 export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<TasksType>) => {
+    dispatch(setAppStatusAC('loading'));
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(() => {
-            dispatch(removeTaskAC(taskId, todolistId))
+            dispatch(removeTaskAC(taskId, todolistId));
+            dispatch(setAppStatusAC('succeeded'));
         })
 };
 export const addTaskTC = (taskName: string, todoListID: string) => (dispatch: Dispatch<TasksType>) => {
+    dispatch(setAppStatusAC('loading'));
     todolistsAPI.createTask(todoListID, taskName)
         .then((res) => {
             const task = res.data.data.item;
-            dispatch(addTasksAC(task))
+            dispatch(addTasksAC(task));
+            dispatch(setAppStatusAC('succeeded'));
         })
 };
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
@@ -121,3 +128,4 @@ export type TasksType =
     | RemoveTodolistActionType
     | AddTodolistActionType
     | SetTodolistsActionType
+    | setAppStatusActionType
