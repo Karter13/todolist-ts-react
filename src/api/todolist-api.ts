@@ -5,7 +5,7 @@ const settings = {
     headers: {
         'API-KEY': 'bb249f66-6d8f-4cc5-9789-2a998b315ae1'
     }
-}
+};
 const instanse = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
@@ -51,7 +51,7 @@ export type TodolistType = {
     addedDates: string
     order: number
 }
-type CommonResponseType<T = {}> = {
+export type CommonResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>,
     data: T
