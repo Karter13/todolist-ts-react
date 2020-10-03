@@ -17,7 +17,7 @@ test('correct error message should be removed', () => {
 
 });
 
-test('correct change status', () => {
+test('correct status should be set', () => {
 
     const endState = appReducer(startState, setAppStatusAC('succeeded'));
 

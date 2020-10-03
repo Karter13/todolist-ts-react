@@ -65,8 +65,7 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksTyp
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
             const tasks = res.data.items;
-            const action = setTasksAC(tasks, todolistId);
-            dispatch(action);
+            dispatch(setTasksAC(tasks, todolistId));
             dispatch(setAppStatusAC('succeeded'));
         })
 };

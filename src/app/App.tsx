@@ -16,7 +16,7 @@ export type TasksStateType = {
 
 function App() {
 
-    let status = useSelector<AppRootStateType, RequestStatusType>( state => state.app.status)
+    let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
     return (
         <div className="App">
@@ -32,7 +32,7 @@ function App() {
                 </Toolbar>
             </AppBar>
 
-            {status=== 'loading' && <LinearProgress  color="secondary"/>}
+            {status === 'loading' && <LinearProgress color="secondary"/>}
 
             <Container fixed>
                 <TodolistsList/>
