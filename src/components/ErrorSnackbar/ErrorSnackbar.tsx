@@ -21,8 +21,10 @@ export function ErrorSnackbar() {
         dispatch(setAppErrorAC(null))
     };
 
+    const isOpen = error !== null;
+
     return (
-        <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error">
                 {error}
             </Alert>
