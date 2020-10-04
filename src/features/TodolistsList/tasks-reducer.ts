@@ -101,7 +101,8 @@ export const addTaskTC = (taskName: string, todoListID: string) => (dispatch: Di
             }
         })
         .catch((err) => {
-            handleServerNetworkError(err.message, dispatch)
+        debugger
+            handleServerNetworkError(err, dispatch);
             // dispatch(setAppErrorAC(err.message));
             // dispatch(setAppStatusAC('failed'))
         })
@@ -127,11 +128,15 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
         };
         todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then((res) => {
-                if(res.data.resultCode === RequestStatusesCode1.success) {
+                if (res.data.resultCode === RequestStatusesCode1.success) {
                     dispatch(updateTaskAC(taskId, domainModel, todolistId))
                 } else {
-                    dispatch(setAppErrorAC(res.data.messages[0]))
+                    handleServerAppError(res.data, dispatch)
                 }
+            })
+            .catch((err) => {
+            debugger
+                handleServerNetworkError(err, dispatch);
             })
     };
 
