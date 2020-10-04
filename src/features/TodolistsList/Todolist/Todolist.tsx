@@ -70,7 +70,7 @@ export const TodoList: React.FC<PropsType> = React.memo(({demo = false, ...props
 
             </h3>
 
-            <AddItemForm addItem={addTask} entityStatus={props.todolist.entityStatus}/>
+            <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
 
             <div>
                 {

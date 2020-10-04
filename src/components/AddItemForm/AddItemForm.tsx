@@ -5,19 +5,19 @@ import {RequestStatusType} from '../../app/app-reducer';
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
-    entityStatus: RequestStatusType
+    disabled?: boolean
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem, disabled = false}) => {
 
     console.log('AddItemForm called');
 
     const [itemName, setItemName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
-    const addItem = () => {
+    const addItemHandler = () => {
         if (itemName.trim()) {
-            props.addItem(itemName.trim());
+            addItem(itemName.trim());
             setItemName('');
         } else {
             setError('Title is required!');
@@ -33,7 +33,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) =>
             setError(null);
         }
         if (e.charCode === 13) {
-            addItem();
+            addItemHandler();
         }
     };
 
@@ -47,10 +47,10 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) =>
                 error={!!error}
                 label={'Title'}
                 helperText={error}
-                disabled={props.entityStatus === 'loading'}
+                disabled={disabled}
             />
 
-            <IconButton color={'primary'} onClick={addItem} disabled={props.entityStatus === 'loading'}>
+            <IconButton color={'primary'} onClick={addItemHandler} disabled={disabled}>
                 <AddBox/>
             </IconButton>
 

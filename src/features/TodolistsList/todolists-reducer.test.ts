@@ -1,11 +1,12 @@
 import {
-    addTodolistAC,
+    addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC, FilterValuesType,
     removeTodolistAC, setTodolistsAC, TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer';
 import {v1} from 'uuid';
+import {RequestStatusType} from '../../app/app-reducer';
 
 let todolistId1: string;
 let todolistId2: string;
@@ -70,4 +71,14 @@ test('todolists should be to the state', () => {
     const endState = todolistsReducer([], action);
 
     expect(endState.length).toBe(2);
+});
+
+test('correct antity status of todolist should be changed', () => {
+
+    let newEntityStatus: RequestStatusType = "loading";
+
+    const endState = todolistsReducer(startState, changeTodolistEntityStatusAC(todolistId2, newEntityStatus));
+
+    expect(endState[0].entityStatus).toBe("idle");
+    expect(endState[1].entityStatus).toBe('loading');
 });
