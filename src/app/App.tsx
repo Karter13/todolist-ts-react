@@ -14,9 +14,13 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-function App() {
+type PropsType = {
+    demo?: boolean
+}
 
-    let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+function App({demo = false}:PropsType) {
+
+    let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
 
     return (
         <div className="App">
@@ -35,7 +39,7 @@ function App() {
             {status === 'loading' && <LinearProgress color="secondary"/>}
 
             <Container fixed>
-                <TodolistsList/>
+                <TodolistsList demo={demo}/>
             </Container>
             <ErrorSnackbar/>
         </div>

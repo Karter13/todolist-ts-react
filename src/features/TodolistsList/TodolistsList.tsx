@@ -17,9 +17,16 @@ import {AddItemForm} from '../../components/AddItemForm/AddItemForm';
 import {TodoList} from './Todolist/Todolist';
 import {TasksStateType} from '../../app/App';
 
-export const TodolistsList: React.FC = () => {
+type PropsType = {
+    demo?: boolean
+}
+
+export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(fetchTodolistsTC())
     }, []);
 
@@ -76,11 +83,8 @@ export const TodolistsList: React.FC = () => {
                                    elevation={20}
                             >
                                 <TodoList
+                                    todolist={tl}
                                     key={tl.id}
-                                    id={tl.id}
-                                    title={tl.title}
-                                    filter={tl.filter}
-                                    entityStatus={tl.entityStatus}
                                     tasks={tasksForTodoList}
                                     addTask={addTask}
                                     removeTask={removeTask}
@@ -89,6 +93,7 @@ export const TodolistsList: React.FC = () => {
                                     removeTodoList={removeTodoList}
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodoListTitle={changeTodoListTitle}
+                                    demo={demo}
                                 />
                             </Paper>
                         </Grid>
