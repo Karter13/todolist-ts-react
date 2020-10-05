@@ -16,6 +16,7 @@ export const todolistsAPI = {
     // todolist
     getTodolists() {
         return instanse.get<Array<TodolistType>>(`todo-lists`)
+            .then(res => res.data)
     },
     createTodo(title: string = 'ANGULAR') {
         return instanse.post<CommonResponseType<{ item: TodolistType }>>(`todo-lists`,

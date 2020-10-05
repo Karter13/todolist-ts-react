@@ -1,5 +1,10 @@
 import {TasksStateType} from '../../app/App';
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer';
+import {
+    AddTodolistActionType,
+    changeTodolistEntityStatusAC,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from './todolists-reducer';
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolist-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from '../../app/store';
@@ -71,10 +76,12 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksTyp
 };
 export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<TasksType>) => {
     dispatch(setAppStatusAC('loading'));
+    dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(() => {
             dispatch(removeTaskAC(taskId, todolistId));
             dispatch(setAppStatusAC('succeeded'));
+            dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'));
         })
 };
 
@@ -85,31 +92,27 @@ export enum RequestStatusesCode1 {
 
 export const addTaskTC = (taskName: string, todoListID: string) => (dispatch: Dispatch<TasksType>) => {
     dispatch(setAppStatusAC('loading'));
+    dispatch(changeTodolistEntityStatusAC(todoListID, 'loading'));
     todolistsAPI.createTask(todoListID, taskName)
         .then((res) => {
             if (res.data.resultCode === RequestStatusesCode1.success) {
                 dispatch(addTasksAC(res.data.data.item));
                 dispatch(setAppStatusAC('succeeded'));
+                dispatch(changeTodolistEntityStatusAC(todoListID, 'succeeded'));
             } else {
                 handleServerAppError(res.data, dispatch)
-                // if (res.data.messages.length) {
-                //     dispatch(setAppErrorAC(res.data.messages[0]))
-                // } else {
-                //     dispatch(setAppErrorAC('Some error occurred'))
-                // }
-                // dispatch(setAppStatusAC('failed'))
             }
         })
         .catch((err) => {
         debugger
             handleServerNetworkError(err, dispatch);
-            // dispatch(setAppErrorAC(err.message));
-            // dispatch(setAppStatusAC('failed'))
         })
 
 };
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch<TasksType>, getState: () => AppRootStateType) => {
+        dispatch(setAppStatusAC('loading'));
+        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
         const state = getState();
         const task = state.tasks[todolistId].find(task => task.id === taskId);
         if (!task) {
@@ -130,12 +133,13 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             .then((res) => {
                 if (res.data.resultCode === RequestStatusesCode1.success) {
                     dispatch(updateTaskAC(taskId, domainModel, todolistId))
+                    dispatch(setAppStatusAC('succeeded'));
+                    dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'));
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
             })
             .catch((err) => {
-            debugger
                 handleServerNetworkError(err, dispatch);
             })
     };
@@ -159,3 +163,4 @@ export type TasksType =
     | SetTodolistsActionType
     | setAppStatusActionType
     | setAppErrorActionType
+    | ReturnType<typeof changeTodolistEntityStatusAC>

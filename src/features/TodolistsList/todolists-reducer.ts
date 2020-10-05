@@ -51,8 +51,9 @@ export const changeTodolistEntityStatusAC = (todoId: string, entityStatus: Reque
 export const fetchTodolistsTC = () => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
     todolistsAPI.getTodolists()
-        .then((res) => {
-            dispatch(setTodolistsAC(res.data));
+        .then((data) => {
+            console.log(data)
+            dispatch(setTodolistsAC(data));
             dispatch(setAppStatusAC('succeeded'))
         })
 };

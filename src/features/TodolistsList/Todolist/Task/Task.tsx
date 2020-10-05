@@ -10,6 +10,7 @@ type TaskPropsType = {
     changeTaskTitle: (id: string, newTitle: string, todoListID: string) => void
     task: TaskType
     todolistId: string
+    entityStatus: string
 }
 export const Task: React.FC<TaskPropsType> = React.memo((props) => {
 
@@ -34,7 +35,7 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
             />
 
             <EditableSpan saveNewTitle={onTitleChangeHandler} title={props.task.title}/>
-            <IconButton onClick={onClickHandler}>
+            <IconButton onClick={onClickHandler} disabled={props.entityStatus === 'loading'}>
                 <Delete/>
             </IconButton>
         </div>
