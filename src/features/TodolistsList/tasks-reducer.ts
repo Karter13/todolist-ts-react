@@ -78,7 +78,8 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
     todolistsAPI.deleteTask(todolistId, taskId)
-        .then(() => {
+        .then((res) => {
+            console.log(res);
             dispatch(removeTaskAC(taskId, todolistId));
             dispatch(setAppStatusAC('succeeded'));
             dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'));
