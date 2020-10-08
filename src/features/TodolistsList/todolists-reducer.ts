@@ -1,6 +1,6 @@
 import {todolistsAPI, TodolistType} from '../../api/todolist-api';
 import {Dispatch} from 'redux';
-import {RequestStatusType, setAppErrorActionType, setAppStatusAC, setAppStatusActionType} from '../../app/app-reducer';
+import {RequestStatusType, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer';
 import {RequestStatusesCode1} from './tasks-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils';
 
@@ -116,9 +116,9 @@ type ActionsType =
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
     | SetTodolistsActionType
-    | setAppStatusActionType
-    | setAppStatusActionType
-    | setAppErrorActionType
+    | SetAppStatusActionType
+    | SetAppStatusActionType
+    | SetAppErrorActionType
     | ReturnType<typeof changeTodolistEntityStatusAC>
 export type FilterValuesType = 'all' | 'completed' | 'active';
 export type TodolistDomainType = TodolistType & {

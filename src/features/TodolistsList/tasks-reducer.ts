@@ -8,7 +8,7 @@ import {
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolist-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from '../../app/store';
-import {setAppErrorAC, setAppErrorActionType, setAppStatusAC, setAppStatusActionType} from '../../app/app-reducer';
+import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils';
 
 const initialState: TasksStateType = {};
@@ -155,6 +155,8 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             })
     };
 
+
+
 // types
 export type UpdateDomainTaskModelType = {
     title?: string
@@ -172,6 +174,6 @@ export type TasksType =
     | RemoveTodolistActionType
     | AddTodolistActionType
     | SetTodolistsActionType
-    | setAppStatusActionType
-    | setAppErrorActionType
+    | SetAppStatusActionType
+    | SetAppErrorActionType
     | ReturnType<typeof changeTodolistEntityStatusAC>

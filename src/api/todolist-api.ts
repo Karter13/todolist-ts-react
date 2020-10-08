@@ -44,7 +44,32 @@ export const todolistsAPI = {
     }
 };
 
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instanse.post<CommonResponseType<{ userId: number }>>('auth/login', data)
+    },
+    logout() {
+        return instanse.delete<CommonResponseType>('auth/login')
+    },
+    me() {
+        return instanse.get<CommonResponseType<AuthMeType>>('auth/me')
+    }
+};
+
 // types
+type AuthMeType = {
+    id: number
+    email: string
+    login: string
+}
+// types for auth
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
 //types for Todolist
 export type TodolistType = {
     id: string
@@ -65,6 +90,7 @@ export enum TaskStatuses {
     Completed,
     Draft
 }
+
 export enum TaskPriorities {
     Low,
     Middle,
@@ -72,6 +98,7 @@ export enum TaskPriorities {
     Urgently,
     Later,
 }
+
 export type TaskType = {
     description: string
     title: string
@@ -97,3 +124,4 @@ export type GetTasksResponse = {
     totalCount: number
     items: Array<TaskType>
 }
+
