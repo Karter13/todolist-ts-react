@@ -4,7 +4,6 @@ import {RequestStatusType, setAppErrorActionType, setAppStatusAC, setAppStatusAc
 import {RequestStatusesCode1} from './tasks-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils';
 
-
 const initialState: Array<TodolistDomainType> = [];
 
 export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
@@ -61,9 +60,16 @@ export const removeTodolistTC = (todoId: string) => (dispatch: Dispatch<ActionsT
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTodolistEntityStatusAC(todoId, 'loading'));
     todolistsAPI.deleteTodo(todoId)
-        .then(() => {
-            dispatch(removeTodolistAC(todoId));
-            dispatch(setAppStatusAC('succeeded'))
+        .then((res) => {
+            if (res.data.resultCode === RequestStatusesCode1.success) {
+                dispatch(removeTodolistAC(todoId));
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((err) => {
+            handleServerNetworkError(err, dispatch)
         })
 };
 export const addTodolistTC = (title: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -86,10 +92,17 @@ export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: D
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTodolistEntityStatusAC(id, 'loading'));
     todolistsAPI.updateTodo(id, title)
-        .then(() => {
-            dispatch(changeTodolistTitleAC(id, title));
-            dispatch(setAppStatusAC('succeeded'));
-            dispatch(changeTodolistEntityStatusAC(id, 'succeeded'));
+        .then((res) => {
+            if(res.data.resultCode === RequestStatusesCode1.success) {
+                dispatch(changeTodolistTitleAC(id, title));
+                dispatch(setAppStatusAC('succeeded'));
+                dispatch(changeTodolistEntityStatusAC(id, 'succeeded'));
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((err) => {
+            handleServerNetworkError(err, dispatch)
         })
 };
 
