@@ -9,6 +9,8 @@ import {useSelector} from 'react-redux';
 import {AppRootStateType} from './store';
 import {RequestStatusType} from './app-reducer';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar';
+import {Route, Switch, Redirect} from 'react-router-dom';
+import {Login} from '../features/Login/Login';
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -18,7 +20,7 @@ type PropsType = {
     demo?: boolean
 }
 
-function App({demo = false}:PropsType) {
+function App({demo = false}: PropsType) {
 
     let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
 
@@ -39,7 +41,12 @@ function App({demo = false}:PropsType) {
             {status === 'loading' && <LinearProgress color="secondary"/>}
 
             <Container fixed>
-                <TodolistsList demo={demo}/>
+                <Switch>
+                    <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
+                    <Route path={'/login'} render={() => <Login/>}/>
+                    <Route path={'/404'} render={() => <h1>404</h1>}/>
+                    <Redirect from={'*'} to={'/404'}/>
+                </Switch>
             </Container>
             <ErrorSnackbar/>
         </div>
