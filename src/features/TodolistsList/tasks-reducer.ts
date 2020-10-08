@@ -69,9 +69,14 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksTyp
     dispatch(setAppStatusAC('loading'));
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
-            const tasks = res.data.items;
-            dispatch(setTasksAC(tasks, todolistId));
-            dispatch(setAppStatusAC('succeeded'));
+            if(res.data.error === null) {
+                const tasks = res.data.items;
+                dispatch(setTasksAC(tasks, todolistId));
+                dispatch(setAppStatusAC('succeeded'));
+            }
+        })
+        .catch((err) => {
+            handleServerNetworkError(err, dispatch);
         })
 };
 export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch<TasksType>) => {
@@ -79,10 +84,16 @@ export const removeTaskTC = (todolistId: string, taskId: string) => (dispatch: D
     dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
     todolistsAPI.deleteTask(todolistId, taskId)
         .then((res) => {
-            console.log(res);
-            dispatch(removeTaskAC(taskId, todolistId));
-            dispatch(setAppStatusAC('succeeded'));
-            dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'));
+            if (res.data.resultCode === RequestStatusesCode1.success) {
+                dispatch(removeTaskAC(taskId, todolistId));
+                dispatch(setAppStatusAC('succeeded'));
+                dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'));
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((err) => {
+            handleServerNetworkError(err, dispatch);
         })
 };
 
@@ -105,7 +116,6 @@ export const addTaskTC = (taskName: string, todoListID: string) => (dispatch: Di
             }
         })
         .catch((err) => {
-        debugger
             handleServerNetworkError(err, dispatch);
         })
 
