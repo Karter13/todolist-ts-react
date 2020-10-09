@@ -51,7 +51,6 @@ export const fetchTodolistsTC = () => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
     todolistsAPI.getTodolists()
         .then((data) => {
-            console.log(data)
             dispatch(setTodolistsAC(data));
             dispatch(setAppStatusAC('succeeded'))
         })

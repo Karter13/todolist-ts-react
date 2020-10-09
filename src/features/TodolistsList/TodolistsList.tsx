@@ -71,7 +71,6 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 
 
     if (!isLoggedIn) {
-        debugger
         return <Redirect to={'/login'}/>
     }
 

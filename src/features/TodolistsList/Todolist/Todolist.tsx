@@ -34,8 +34,6 @@ export const TodoList: React.FC<PropsType> = React.memo(({demo = false, ...props
         dispatch(fetchTasksTC(props.todolist.id));
     }, []);
 
-    console.log('Todolist is called');
-
     const onAllClickHandler = useCallback(() => props.changeFilter('all', props.todolist.id), [props.changeFilter, props.todolist.id]);
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.todolist.id), [props.changeFilter, props.todolist.id]);
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.todolist.id), [props.changeFilter, props.todolist.id]);
