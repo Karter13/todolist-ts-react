@@ -25,7 +25,6 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
                 filter: 'all',
                 entityStatus: 'idle'
             }));
-
         default:
             return state;
     }
@@ -53,6 +52,9 @@ export const fetchTodolistsTC = () => (dispatch: Dispatch<ActionsType>) => {
         .then((data) => {
             dispatch(setTodolistsAC(data));
             dispatch(setAppStatusAC('succeeded'))
+        })
+        .catch((err) => {
+            handleServerNetworkError(err, dispatch)
         })
 };
 export const removeTodolistTC = (todoId: string) => (dispatch: Dispatch<ActionsType>) => {

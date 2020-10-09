@@ -28,7 +28,7 @@ export const Login = () => {
             if (!values.password) {
                 errors.password = 'Required';
             } else if (values.password.length <= 6) {
-                errors.password = 'Password Must be mo then 6 simbols';
+                errors.password = 'password must be more than 6 characters';
             }
             if (!values.email) {
                 errors.email = 'Required';
@@ -79,6 +79,7 @@ export const Login = () => {
                             label={'Remember me'}
                             control={<Checkbox
                                 {...formik.getFieldProps('rememberMe')}
+                                checked={formik.values.rememberMe}
                             />}
                         />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>

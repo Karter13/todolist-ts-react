@@ -46,7 +46,7 @@ export const todolistsAPI = {
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        return instanse.post<CommonResponseType<{ userId: number }>>('auth/login', data)
+        return instanse.post<CommonResponseType<{ userId?: number }>>('auth/login', data)
     },
     logout() {
         return instanse.delete<CommonResponseType>('auth/login')
@@ -85,18 +85,17 @@ export type CommonResponseType<T = {}> = {
 
 //types for Tasklist
 export enum TaskStatuses {
-    New,
-    InProgress,
-    Completed,
-    Draft
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
 }
-
 export enum TaskPriorities {
-    Low,
-    Middle,
-    Hi,
-    Urgently,
-    Later,
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4,
 }
 
 export type TaskType = {

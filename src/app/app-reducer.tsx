@@ -24,7 +24,7 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const);
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const);
-export const setIsInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const);
+export const setAppIsInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const);
 
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
@@ -33,7 +33,7 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             dispatch(setIsLoggedInAC(true));
         } else {
         }
-        dispatch(setIsInitializedAC(true))
+        dispatch(setAppIsInitializedAC(true))
     })
 };
 
@@ -42,7 +42,7 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = typeof initialState
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-export type SetIsInitializedActionType = ReturnType<typeof setIsInitializedAC>
+export type SetIsInitializedActionType = ReturnType<typeof setAppIsInitializedAC>
 
 type ActionsType =
     | SetAppStatusActionType
