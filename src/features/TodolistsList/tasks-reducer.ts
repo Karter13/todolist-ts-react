@@ -1,22 +1,8 @@
-import {
-    AddTodolistActionType,
-    RemoveTodolistActionType,
-    SetTodolistsActionType,
-    addTodolistAC,
-    removeTodolistAC,
-    setTodolistsAC
-} from './todolists-reducer'
-import {
-    TaskPriorities,
-    TaskStatuses,
-    TaskType,
-    todolistsAPI,
-    TodolistType,
-    UpdateTaskModelType
-} from '../../api/todolists-api'
+import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolists-reducer'
+import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
-import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {setAppStatusAC} from '../../app/app-reducer'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
@@ -76,14 +62,14 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
             dispatch(setTasksAC({tasks, todolistId}))
             dispatch(setAppStatusAC({status: 'succeeded'}))
         })
-}
+};
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch) => {
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
             const action = removeTaskAC({taskId, todolistId})
             dispatch(action)
         })
-}
+};
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     todolistsAPI.createTask(todolistId, title)
@@ -100,7 +86,7 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
         .catch((error) => {
             handleServerNetworkError(error, dispatch)
         })
-}
+};
 export const updateTaskTC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const state = getState()

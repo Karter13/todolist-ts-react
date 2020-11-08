@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux'
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {setAppStatusAC} from '../../app/app-reducer'
 import {authAPI, LoginParamsType} from '../../api/todolists-api'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
@@ -37,7 +37,6 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
             handleServerNetworkError(error, dispatch)
         })
 }
-
 export const logoutTC = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.logout()
@@ -54,17 +53,3 @@ export const logoutTC = () => (dispatch: Dispatch) => {
         })
 }
 
-
-const a1 = {
-    type: 'SET-IS-LOGIN-IN',
-    payload: {
-        value: true
-    }
-}
-const a2 = {
-    type: 'SET-blabal',
-    payload: {
-        user: {name: "sdsd"},
-        age: 12
-    }
-}
