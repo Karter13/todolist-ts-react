@@ -78,7 +78,6 @@ export const updateTaskTC = (taskId: string, model: UpdateDomainTaskModelType, t
             })
     }
 
-
 const slice = createSlice({
     name: 'tasks',
     initialState,
