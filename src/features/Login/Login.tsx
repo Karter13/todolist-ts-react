@@ -1,10 +1,16 @@
 import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
-import {useFormik} from 'formik'
+import {FormikHelpers, useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {loginTC} from './auth-reducer'
 import {AppRootStateType} from '../../app/store'
 import { Redirect } from 'react-router-dom'
+
+type FormValuesType = {
+    email: string,
+    password: string,
+    rememberMe: boolean
+}
 
 export const Login = () => {
     const dispatch = useDispatch()
@@ -23,22 +29,22 @@ export const Login = () => {
                     password: 'Password is required'
                 }
             }
-
         },
         initialValues: {
             email: '',
             password: '',
             rememberMe: false
         },
-        onSubmit: values => {
-            dispatch(loginTC(values));
+        onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
+           const res = await dispatch(loginTC(values));
+           debugger
+           formikHelpers.setFieldError('email', 'fakeError')
         },
     })
 
     if (isLoggedIn) {
         return <Redirect to={"/"} />
     }
-
 
     return <Grid container justify="center">
         <Grid item xs={4}>
