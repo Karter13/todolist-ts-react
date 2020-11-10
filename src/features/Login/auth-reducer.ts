@@ -25,8 +25,8 @@ export const loginTC = createAsyncThunk<undefined, LoginParamsType, { rejectValu
 
 export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC({status: 'loading'}));
-    const res = await authAPI.logout();
     try {
+        const res = await authAPI.logout();
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}));
             return;
