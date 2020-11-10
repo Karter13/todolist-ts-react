@@ -3,7 +3,6 @@ import {Dispatch} from 'redux'
 import {RequestStatusType, setAppStatusAC} from '../../app/app-reducer'
 import {handleServerNetworkError} from '../../utils/error-utils'
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {action} from '@storybook/addon-actions';
 
 // thunks
 export const fetchTodolistsTC = createAsyncThunk('todolists/fetchTodolists', async (param, {dispatch, rejectWithValue}) => {
@@ -17,21 +16,18 @@ export const fetchTodolistsTC = createAsyncThunk('todolists/fetchTodolists', asy
         return rejectWithValue(null)
     }
 });
+export const removeTodolistTC = createAsyncThunk('todolists/removeTodolist', async (todolistId: string, {dispatch, rejectWithValue}) => {
+    dispatch(setAppStatusAC({status: 'loading'}));
+    //изменим статус конкретного тудулиста, чтобы он мог задизеблить что надо
+    dispatch(changeTodolistEntityStatusAC({id: todolistId, status: 'loading'}));
+    let res = await todolistsAPI.deleteTodolist(todolistId);
 
-export const removeTodolistTC = (todolistId: string) => {
-    return (dispatch: Dispatch) => {
-        //изменим глобальный статус приложения, чтобы вверху полоса побежала
-        dispatch(setAppStatusAC({status: 'loading'}))
-        //изменим статус конкретного тудулиста, чтобы он мог задизеблить что надо
-        dispatch(changeTodolistEntityStatusAC({id: todolistId, status: 'loading'}))
-        todolistsAPI.deleteTodolist(todolistId)
-            .then((res) => {
-                dispatch(removeTodolistAC({id: todolistId}))
-                //скажем глобально приложению, что асинхронная операция завершена
-                dispatch(setAppStatusAC({status: 'succeeded'}))
-            })
-    }
-}
+    //скажем глобально приложению, что асинхронная операция завершена
+    dispatch(setAppStatusAC({status: 'succeeded'}));
+    return {id: todolistId};
+});
+
+
 export const addTodolistTC = (title: string) => {
     return (dispatch: Dispatch) => {
         dispatch(setAppStatusAC({status: 'loading'}))
@@ -55,12 +51,6 @@ const slice = createSlice({
     name: 'todolists',
     initialState: [] as Array<TodolistDomainType>,
     reducers: {
-        removeTodolistAC(state, action: PayloadAction<{ id: string }>) {
-            const index = state.findIndex(tl => tl.id === action.payload.id);
-            if (index > -1) {
-                state.splice(index, 1);
-            }
-        },
         addTodolistAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
             state.unshift({...action.payload.todolist, filter: 'all', entityStatus: 'idle'})
         },
@@ -81,15 +71,21 @@ const slice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchTodolistsTC.fulfilled, (state, action) => {
             return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+        });
+        builder.addCase(removeTodolistTC.fulfilled, (state, action) => {
+            const index = state.findIndex(tl => tl.id === action.payload.id);
+            if (index > -1) {
+                state.splice(index, 1);
+            }
         })
     }
 });
 
 export const todolistsReducer = slice.reducer;
 export const {
-    removeTodolistAC, addTodolistAC, changeTodolistTitleAC
+    addTodolistAC, changeTodolistTitleAC
     , changeTodolistFilterAC, changeTodolistEntityStatusAC
-} = slice.actions
+} = slice.actions;
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';

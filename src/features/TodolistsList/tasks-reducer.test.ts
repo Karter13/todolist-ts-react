@@ -1,5 +1,5 @@
 import {fetchTasksTC, tasksReducer, TasksStateType, removeTaskTC, addTaskTC, updateTaskTC} from './tasks-reducer'
-import {addTodolistAC, fetchTodolistsTC, removeTodolistAC} from './todolists-reducer'
+import {addTodolistAC, fetchTodolistsTC, removeTodolistTC} from './todolists-reducer'
 import {TaskPriorities, TaskStatuses} from '../../api/todolists-api'
 
 let startState: TasksStateType = {}
@@ -112,7 +112,7 @@ test('new array should be added when new todolist is added', () => {
     expect(endState[newKey]).toEqual([])
 });
 test('propertry with todolistId should be deleted', () => {
-    const action = removeTodolistAC({id: 'todolistId2'})
+    const action = removeTodolistTC.fulfilled({id: 'todolistId2'}, 'requestId', 'todolistId2')
 
     const endState = tasksReducer(startState, action)
 
