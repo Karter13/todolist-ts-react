@@ -1,4 +1,4 @@
-import {fetchTasksTC, tasksReducer, TasksStateType, updateTaskAC, removeTaskTC, addTaskTC} from './tasks-reducer'
+import {fetchTasksTC, tasksReducer, TasksStateType, removeTaskTC, addTaskTC, updateTaskTC} from './tasks-reducer'
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolists-reducer'
 import {TaskPriorities, TaskStatuses} from '../../api/todolists-api'
 
@@ -45,7 +45,7 @@ test('correct task should be deleted from correct array', () => {
     expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(2)
     expect(endState['todolistId2'].every(t => t.id != '2')).toBeTruthy()
-})
+});
 test('correct task should be added to correct array', () => {
     //const action = addTaskAC("juce", "todolistId2");
     let task = {
@@ -69,17 +69,19 @@ test('correct task should be added to correct array', () => {
     expect(endState['todolistId2'][0].id).toBeDefined()
     expect(endState['todolistId2'][0].title).toBe('juce')
     expect(endState['todolistId2'][0].status).toBe(TaskStatuses.New)
-})
+});
 test('status of specified task should be changed', () => {
-    const action = updateTaskAC({taskId: '2', model: {status: TaskStatuses.New}, todolistId: 'todolistId2'})
+    let updateModel = {taskId: '2', model: {status: TaskStatuses.New}, todolistId: 'todolistId2'};
+    const action = updateTaskTC.fulfilled(updateModel, 'requestId', updateModel);
 
-    const endState = tasksReducer(startState, action)
+    const endState = tasksReducer(startState, action);
 
-    expect(endState['todolistId1'][1].status).toBe(TaskStatuses.Completed)
+    expect(endState['todolistId1'][1].status).toBe(TaskStatuses.Completed);
     expect(endState['todolistId2'][1].status).toBe(TaskStatuses.New)
 })
 test('title of specified task should be changed', () => {
-    const action = updateTaskAC({taskId: '2', model: {title: 'yogurt'}, todolistId: 'todolistId2'})
+    let updateModel = {taskId: '2', model: {title: 'yogurt'}, todolistId: 'todolistId2'};
+    const action = updateTaskTC.fulfilled(updateModel,'requestId', updateModel)
 
     const endState = tasksReducer(startState, action)
 
