@@ -24,21 +24,26 @@ type PropsType = {
     demo?: boolean
 }
 
+const selectStatus = (state: AppRootStateType) => state.app.status;
+const selectIsInitialized = (state: AppRootStateType) => state.app.isInitialized;
+const selectIsLoggedIn = (state: AppRootStateType) => state.auth.isLoggedIn;
+
+
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
+    const status = useSelector(selectStatus);
+    const isInitialized = useSelector(selectIsInitialized);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!demo) {
             dispatch(initializeAppTC())
         }
-    }, [])
+    }, []);
 
     const logoutHandler = useCallback(() => {
         dispatch(logoutTC())
-    }, [])
+    }, []);
 
     if (!isInitialized) {
         return <div
