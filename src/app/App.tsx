@@ -14,11 +14,10 @@ import {Menu} from '@material-ui/icons'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType} from './store'
 import {initializeAppTC} from './app-reducer'
 import {Route} from 'react-router-dom'
 import {selectIsInitialized, selectStatus} from './selectors';
-import { Login } from '../features/Auth/Login'
+import {Login} from '../features/Auth/Login'
 import {logoutTC} from '../features/Auth/auth-reducer';
 import {selectIsLoggedIn} from '../features/Auth/selectors';
 

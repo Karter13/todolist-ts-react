@@ -1,6 +1,6 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import {applyMiddleware, combineReducers, createStore} from 'redux'
+import {combineReducers} from 'redux'
 import {tasksReducer} from '../../features/TodolistsList/tasks-reducer'
 import {todolistsReducer} from '../../features/TodolistsList/todolists-reducer'
 import {v1} from 'uuid'
@@ -9,7 +9,7 @@ import {TaskPriorities, TaskStatuses} from '../../api/todolists-api'
 import {appReducer} from '../../app/app-reducer'
 import thunkMiddleware from 'redux-thunk'
 import {configureStore} from '@reduxjs/toolkit'
-import {BrowserRouter, HashRouter} from 'react-router-dom'
+import {HashRouter} from 'react-router-dom'
 import {authReducer} from '../../features/Auth/auth-reducer';
 
 const rootReducer: RootReducerType = combineReducers({
