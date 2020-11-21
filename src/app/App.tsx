@@ -58,7 +58,7 @@ function App({demo = false}: PropsType) {
                         <IconButton edge="start" color="inherit" aria-label="menu">
                             <Menu/>
                         </IconButton>
-                        <Typography variant="h6">
+                        <Typography variant="h6" style={{padding: '40px'}}>
                             News
                         </Typography>
                         {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
