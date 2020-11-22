@@ -16,21 +16,20 @@ type PropsType = {
 }
 
 export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const isLoggedIn = useSelector(selectIsLoggedIn)
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const dispatch = useAppDispatch();
 
-    const dispatch = useAppDispatch()
-
-    const {fetchTodolistsTC, addTodolistTC} = useActions(todolistsActions)
+    const {fetchTodolistsTC, addTodolistTC} = useActions(todolistsActions);
 
     const addTodolistCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
-        let thunk = todolistsActions.addTodolistTC(title)
-        const resultAction = await dispatch(thunk)
+        let thunk = todolistsActions.addTodolistTC(title);
+        const resultAction = await dispatch(thunk);
 
         if (todolistsActions.addTodolistTC.rejected.match(resultAction)) {
             if (resultAction.payload?.errors?.length) {
-                const errorMessage = resultAction.payload?.errors[0]
+                const errorMessage = resultAction.payload?.errors[0];
                 helper.setError(errorMessage)
             } else {
                 helper.setError('Some error occured')
@@ -38,21 +37,22 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         } else {
             helper.setTitle('')
         }
-    }, [])
+    }, []);
 
 
     useEffect(() => {
         if (demo || !isLoggedIn) {
             return
         }
-        fetchTodolistsTC()
-    }, [])
+        if (!todolists.length) {
+            fetchTodolistsTC()
+        }
+    }, []);
 
 
     if (!isLoggedIn) {
         return <Redirect to={'/login'}/>
     }
-
     return <>
         <Grid container style={{padding: '20px'}}>
             <AddItemForm addItem={addTodolistCallback}/>
@@ -60,7 +60,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         <Grid container spacing={3} style={{flexWrap: 'nowrap', overflowX: 'scroll'}}>
             {
                 todolists.map(tl => {
-                    let allTodolistTasks = tasks[tl.id]
+                    let allTodolistTasks = tasks[tl.id];
 
                     return <Grid item key={tl.id}>
                         <div style={{width: '300px'}}>

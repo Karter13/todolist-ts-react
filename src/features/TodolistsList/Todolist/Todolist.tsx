@@ -16,26 +16,28 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
-    const {fetchTasks} = useActions(tasksActions)
-    const {changeTodolistFilter, removeTodolistTC, changeTodolistTitleTC} = useActions(todolistsActions)
+    const {fetchTasks} = useActions(tasksActions);
+    const {changeTodolistFilter, removeTodolistTC, changeTodolistTitleTC} = useActions(todolistsActions);
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (demo) {
             return
         }
-        fetchTasks(props.todolist.id)
-    }, [])
+        if(!props.tasks.length) {
+            fetchTasks(props.todolist.id)
+        }
+    }, []);
 
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
 
-        let thunk = tasksActions.addTask({title: title, todolistId: props.todolist.id})
-        const resultAction = await dispatch(thunk)
+        let thunk = tasksActions.addTask({title: title, todolistId: props.todolist.id});
+        const resultAction = await dispatch(thunk);
 
         if (tasksActions.addTask.rejected.match(resultAction)) {
             if (resultAction.payload?.errors?.length) {
-                const errorMessage = resultAction.payload?.errors[0]
+                const errorMessage = resultAction.payload?.errors[0];
                 helper.setError(errorMessage)
             } else {
                 helper.setError('Some error occured')
@@ -44,21 +46,21 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
             helper.setTitle('')
         }
 
-    }, [props.todolist.id])
+    }, [props.todolist.id]);
 
     const removeTodolist = () => {
         removeTodolistTC(props.todolist.id)
     }
     const changeTodolistTitle = useCallback((title: string) => {
         changeTodolistTitleTC({id: props.todolist.id, title: title})
-    }, [props.todolist.id])
+    }, [props.todolist.id]);
 
     const onFilterButtonClickHandler = useCallback((filter: FilterValuesType) => changeTodolistFilter({
         filter: filter,
         id: props.todolist.id
-    }), [props.todolist.id])
+    }), [props.todolist.id]);
 
-    let tasksForTodolist = props.tasks
+    let tasksForTodolist = props.tasks;
 
     if (props.todolist.filter === 'active') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
