@@ -29,4 +29,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('./app/App', () => {
         rerenderEntireTree()
     })
+    module.hot.accept('./app/store', () => {
+        rerenderEntireTree()
+    })
 }

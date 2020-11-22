@@ -20,20 +20,20 @@ import {authActions, authSelectors, Login} from '../features/Auth'
 import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
 import {useActions} from '../utils/redux-utils'
 
-type PropsType = {
-    demo?: boolean
-}
+type PropsType = {}
 
-function App({demo = false}: PropsType) {
+function App(props: PropsType) {
     const status = useSelector(selectStatus)
     const isInitialized = useSelector(selectIsInitialized)
     const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+    console.log('333')
 
     const {logout} = useActions(authActions)
     const {initializeApp} = useActions(appActions)
 
+
     useEffect(() => {
-        if (!demo) {
+        if (!isInitialized) {
             initializeApp()
         }
     }, [])
@@ -65,7 +65,7 @@ function App({demo = false}: PropsType) {
                     {status === 'loading' && <LinearProgress/>}
                 </AppBar>
                 <Container fixed>
-                    <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
+                    <Route exact path={'/'} render={() => <TodolistsList demo={false}/>}/>
                     <Route path={'/login'} render={() => <Login/>}/>
                 </Container>
             </div>
