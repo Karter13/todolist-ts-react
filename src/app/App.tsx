@@ -23,24 +23,23 @@ import {useActions} from '../utils/redux-utils'
 type PropsType = {}
 
 function App(props: PropsType) {
-    const status = useSelector(selectStatus)
-    const isInitialized = useSelector(selectIsInitialized)
-    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
-    console.log('333')
+    const status = useSelector(selectStatus);
+    const isInitialized = useSelector(selectIsInitialized);
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn);
 
-    const {logout} = useActions(authActions)
-    const {initializeApp} = useActions(appActions)
+    const {logout} = useActions(authActions);
+    const {initializeApp} = useActions(appActions);
 
 
     useEffect(() => {
         if (!isInitialized) {
             initializeApp()
         }
-    }, [])
+    }, []);
 
     const logoutHandler = useCallback(() => {
         logout()
-    }, [])
+    }, []);
 
     if (!isInitialized) {
         return <div

@@ -6,11 +6,11 @@ const settings = {
     headers: {
         'API-KEY': 'bb249f66-6d8f-4cc5-9789-2a998b315ae1'
     }
-}
+};
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     ...settings
-})
+});
 
 // api
 export const todolistsAPI = {
