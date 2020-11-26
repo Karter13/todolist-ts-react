@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios'
 import {todolistsAPI} from '../api/todolists-api'
 
 export default {
@@ -14,59 +13,59 @@ const settings = {
 }
 
 export const GetTodolists = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
 
     useEffect(() => {
         todolistsAPI.getTodolists()
             .then((res) => {
                 setState(res.data)
             })
-    }, [])
+    }, []);
 
     return <div> {JSON.stringify(state)}</div>
-}
+};
 
 export const CreateTodolist = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
     useEffect(() => {
         todolistsAPI.createTodolist('blabla todolist')
             .then((res) => {
                 setState(res.data)
             })
-    }, [])
+    }, []);
 
     return <div> {JSON.stringify(state)}</div>
-}
+};
 
 export const DeleteTodolist = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
     useEffect(() => {
-        const todolistId = '0da4eca9-b11b-416f-ac61-ecf3b195e25c'
+        const todolistId = '0da4eca9-b11b-416f-ac61-ecf3b195e25c';
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
                 setState(res.data)
             })
-    }, [])
+    }, []);
 
     return <div> {JSON.stringify(state)}</div>
-}
+};
 
 export const UpdateTodolistTitle = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
     useEffect(() => {
-        const todolistId = '1490c9b5-19c9-44a8-bc18-5ca4f1597cfa'
+        const todolistId = '1490c9b5-19c9-44a8-bc18-5ca4f1597cfa';
         todolistsAPI.updateTodolist(todolistId, 'Dimych hello')
             .then((res) => {
                 setState(res.data)
             })
-    }, [])
+    }, []);
 
     return <div> {JSON.stringify(state)}</div>
-}
+};
 
 export const GetTasks = () => {
-    const [state, setState] = useState<any>(null)
-    const [todolistId, setTodolistId] = useState<string>('')
+    const [state, setState] = useState<any>(null);
+    const [todolistId, setTodolistId] = useState<string>('');
 
 
     const getTasks = () => {
@@ -74,7 +73,7 @@ export const GetTasks = () => {
             .then((res) => {
                 setState(res.data)
             })
-    }
+    };
 
     return <div> {JSON.stringify(state)}
         <div>
@@ -86,19 +85,19 @@ export const GetTasks = () => {
             <button onClick={getTasks}>get tasks</button>
         </div>
     </div>
-}
+};
 
 export const DeleteTask = () => {
-    const [state, setState] = useState<any>(null)
-    const [taskId, setTaskId] = useState<string>('')
-    const [todolistId, setTodolistId] = useState<string>('')
+    const [state, setState] = useState<any>(null);
+    const [taskId, setTaskId] = useState<string>('');
+    const [todolistId, setTodolistId] = useState<string>('');
 
     const deleteTask = () => {
         todolistsAPI.deleteTask(todolistId, taskId)
             .then((res) => {
                 setState(res.data)
             })
-    }
+    };
 
     return <div> {JSON.stringify(state)}
         <div>
@@ -113,19 +112,19 @@ export const DeleteTask = () => {
             <button onClick={deleteTask}>delete task</button>
         </div>
     </div>
-}
+};
 
 export const CreateTask = () => {
-    const [state, setState] = useState<any>(null)
-    const [taskTitle, setTaskTitle] = useState<string>('')
-    const [todolistId, setTodolistId] = useState<string>('')
+    const [state, setState] = useState<any>(null);
+    const [taskTitle, setTaskTitle] = useState<string>('');
+    const [todolistId, setTodolistId] = useState<string>('');
 
     const createTask = () => {
         todolistsAPI.createTask(todolistId, taskTitle)
             .then((res) => {
                 setState(res.data)
             })
-    }
+    };
 
     return <div> {JSON.stringify(state)}
         <div>
@@ -140,19 +139,19 @@ export const CreateTask = () => {
             <button onClick={createTask}>create task</button>
         </div>
     </div>
-}
+};
 
 export const UpdateTask = () => {
-    const [state, setState] = useState<any>(null)
-    const [title, setTitle] = useState<string>('title 1')
-    const [description, setDescription] = useState<string>('descripton 1')
-    const [status, setStatus] = useState<number>(0)
-    const [priority, setPriority] = useState<number>(0)
-    const [startDate, setStartDate] = useState<string>('')
-    const [deadline, setDeadline] = useState<string>('')
+    const [state, setState] = useState<any>(null);
+    const [title, setTitle] = useState<string>('title 1');
+    const [description, setDescription] = useState<string>('descripton 1');
+    const [status, setStatus] = useState<number>(0);
+    const [priority, setPriority] = useState<number>(0);
+    const [startDate, setStartDate] = useState<string>('');
+    const [deadline, setDeadline] = useState<string>('');
 
-    const [todolistId, setTodolistId] = useState<string>('')
-    const [taskId, setTaskId] = useState<string>('')
+    const [todolistId, setTodolistId] = useState<string>('');
+    const [taskId, setTaskId] = useState<string>('');
 
     const createTask = () => {
         todolistsAPI.updateTask(todolistId, taskId, {
@@ -166,7 +165,7 @@ export const UpdateTask = () => {
             .then((res) => {
                 setState(res.data)
             })
-    }
+    };
 
     return <div> {JSON.stringify(state)}
         <div>
@@ -179,4 +178,4 @@ export const UpdateTask = () => {
             <button onClick={createTask}>update task</button>
         </div>
     </div>
-}
+};

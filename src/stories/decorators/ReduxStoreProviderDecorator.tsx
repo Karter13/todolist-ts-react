@@ -57,9 +57,9 @@ export const storyBookStore = configureStore({
 export const ReduxStoreProviderDecorator = (storyFn: any) => (
     <Provider
         store={storyBookStore}>{storyFn()}
-    </Provider>)
+    </Provider>);
 
 
 export const BrowserRouterDecorator = (storyFn: any) => (
     <HashRouter>{storyFn()}
-    </HashRouter>)
+    </HashRouter>);
